@@ -1,0 +1,89 @@
+function contains(tab,element)
+	for _,value in pairs(tab) do
+		if value==element then
+			return true
+		end
+	end
+	return false
+end
+
+function removeall(tab,element)
+	for _,value in pairs(tab) do
+		if value==element then
+			table.remove(tab,value)
+		end
+	end
+end
+
+function filter(t,f,ex,...)
+	local t2 = {}
+	for _, v in ipairs(t) do
+		if f(v,...) and v~=ex then 
+			table.insert(t2,v)
+		end
+	end
+	return t2
+end
+
+function filterCount(t,f,ex,...)
+	return #filter(t,f,ex,...)
+end
+
+function any(t,f,...)
+	for _, v in ipairs(t) do
+		if f(v,...) then return true end
+	end
+	return false
+end
+
+function all(t,f,...)
+	for _, v in ipairs(t) do
+		if not f(v,...) then return false end
+	end
+	return true
+end
+
+function forEach(t,f,...)
+	for _, v in ipairs(t) do
+		f(v,...)
+	end
+end
+
+function concat(t1, t2)
+	local t = {}
+    for k, v in pairs(t1) do
+        t[k] = v
+    end
+    for k, v in pairs(t2) do
+        t[k] = v
+    end
+    return t
+end
+
+function sum(t)
+	local s = 0
+	for _, v in ipairs(t) do
+		s = s + v
+	end
+	return s
+end
+
+function merge(t1, t2, filter)
+	filter=filter or false
+	if filter==true then
+		local dup=false
+		for _, i in ipairs(t2) do
+			for _, j in ipairs(t1) do
+				dup = (i == j)
+				if dup then break end
+			end
+			if not dup then
+				table.insert(t1, i)
+			end
+		end
+	else
+		for _, i in ipairs(t2) do
+			table.insert(t1, i)
+		end
+	end
+end
